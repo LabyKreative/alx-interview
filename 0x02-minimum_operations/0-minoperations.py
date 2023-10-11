@@ -3,9 +3,7 @@
 
 
 def minOperations(n):
-    """Computes the fewest number of operations needed to result
-    in exactly n H characters.
-    """
+    """Calculates the fewest number of operations."""
     if not isinstance(n, int):
         return 0
     total_operations = 0
