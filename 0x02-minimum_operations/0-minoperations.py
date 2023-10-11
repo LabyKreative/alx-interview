@@ -17,7 +17,8 @@ def minOperations(n):
             characters_done += copy_operations
             total_operations += 2
             # print("-(11)->{}".format("H" * characters_done), end='')
-        elif n - characters_done > 0 and (n - characters_done) % characters_done == 0:
+        elif n - characters_done > 0 and \
+                (n - characters_done) % characters_done == 0:
             # copy all and paste
             copy_operations = characters_done
             characters_done += copy_operations
