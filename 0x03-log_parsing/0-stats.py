@@ -1,45 +1,49 @@
 #!/usr/bin/python3
 """a script that reads stdin line by line and computes metrics:"""
 import sys
-import re
 
-# Initialize variables to store metrics
-total_size = 0
-status_code_count = {}
 
-# Define a regular expression pattern to match the input format
-pattern = r'(\d+\.\d+\.\d+\.\d+) - \[.+\] "GET /projects/260 HTTP/1.1" (\d+) (\d+)'
+def print_msg(dict_sc, total_file_size):
+    """Print method."""
 
-# Define a function to print metrics
-def print_metrics():
-    print(f"File size: {total_size}")
-    for status_code in sorted(status_code_count.keys()):
-        print(f"{status_code}: {status_code_count[status_code]}")
+    print("File size: {}".format(total_file_size))
+    for key, val in sorted(dict_sc.items()):
+        if val != 0:
+            print("{}: {}".format(key, val))
+
+
+total_file_size = 0
+code = 0
+counter = 0
+status_code_count = {
+        "200": 0,
+        "301": 0,
+        "400": 0,
+        "401": 0,
+        "403": 0,
+        "404": 0,
+        "405": 0,
+        "500": 0
+    }
 
 try:
-    line_count = 0
     for line in sys.stdin:
-        # Try to match the input line with the pattern
-        match = re.match(pattern, line)
-        if match:
-            # Extract data from the matched line
-            status_code = int(match.group(2))
-            file_size = int(match.group(3))
+        parsed_line = line.split()
+        parsed_line = parsed_line[::-1]
 
-            # Update metrics
-            total_size += file_size
-            status_code_count[status_code] = status_code_count.get(status_code, 0) + 1
+        if len(parsed_line) > 2:
+            counter += 1
 
-            line_count += 1
+            if counter <= 10:
+                total_file_size += int(parsed_line[0])
+                code = parsed_line[1]
 
-            # Print metrics after every 10 lines
-            if line_count % 10 == 0:
-                print_metrics()
-                status_code_count = {}
-        else:
-            # Skip lines that do not match the expected format
-            continue
+                if (code in status_code_count.keys()):
+                    status_code_count[code] += 1
+
+            if (counter == 10):
+                print_msg(status_code_count, total_file_size)
+                counter = 0
 
 finally:
-    # Handle keyboard interruption (CTRL + C)
-    print_metrics()
+    print_msg(status_code_count, total_file_size)
