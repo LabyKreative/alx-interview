@@ -16,17 +16,21 @@ def validUTF8(data):
 
         if count == 0:
 
+            # Count the number of leading 1s to determine the byte length
             while mask_byte & byte:
                 count += 1
                 mask_byte = mask_byte >> 1
 
+            # For a single-byte character, count remains 0
             if count == 0:
                 continue
 
+            # Invalid encoding if the length is not in [1, 4]
             if count == 1 or count > 4:
                 return False
 
         else:
+            # Check if the byte is a valid trailing byte
             if not (byte & mask1 and not (byte & mask2)):
                 return False
 
