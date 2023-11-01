@@ -43,6 +43,7 @@ def place_queens(r, n, cols, pos, neg, board):
         neg.remove(r - c)
         board[r][c] = 0
 
+
 def solve_nqueens(n):
     """
     Solves the N-Queens problem and prints all possible solutions.
@@ -59,6 +60,7 @@ def solve_nqueens(n):
     board = [[0] * n for _ in range(n)]
 
     place_queens(0, n, cols, pos_diag, neg_diag, board)
+
 
 if __name__ == "__main__":
     n = sys.argv
