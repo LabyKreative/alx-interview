@@ -6,27 +6,33 @@ needed to meet a given amount total.
 
 
 def makeChange(coins, total):
-    # Initialize a list 'dp' to store the minimum number of
-    # coins needed for each total amount.
-    # Set the initial value to infinity for all amounts except 0.
-    dp = [float('inf')] * (total + 1)
-    dp[0] = 0
+    """
+    Calculate the min num of coins needed to make change for a given amount.
 
-    # Iterate through each coin to update the 'dp' array.
-    for coin in coins:
-        # For each coin, iterate through the 'dp' array from the
-        # coin value to the total amount.
-        for i in range(coin, total + 1):
-            # Update the 'dp' value by taking the minimum
-            # of the current value and the value
-            # obtained by subtracting the coin value from the
-            # current amount, plus 1.
-            dp[i] = min(dp[i], dp[i - coin] + 1)
+    Args:
+        coins (list): List of coin denominations available.
+        total (int): The total amount for which change needs to be made.
 
-    # If the final 'dp' value for the total amount is still infinity,
-    # it means it's not possible to make change for that amount.
-    if dp[total] == float('inf'):
-        return -1
+    Returns:
+        int: Min num of coins needed. Returns -1 if change cannot be made.
+    """
+    if total <= 0:
+        return 0
 
-    # Return the minimum number of coins needed for the given total amount.
-    return dp[total]
+    remaining_amount = total
+    coins_count = 0
+    coin_index = 0
+    sorted_coins = sorted(coins, reverse=True)
+    num_coins = len(coins)
+
+    while remaining_amount > 0:
+        if coin_index >= num_coins:
+            return -1
+
+        if remaining_amount - sorted_coins[coin_index] >= 0:
+            remaining_amount -= sorted_coins[coin_index]
+            coins_count += 1
+        else:
+            coin_index += 1
+
+    return coins_count
