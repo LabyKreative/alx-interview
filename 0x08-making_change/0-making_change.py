@@ -4,6 +4,7 @@ A function that determine the fewest number of coins
 needed to meet a given amount total.
 """
 
+
 def makeChange(coins, total):
     # Initialize a list 'dp' to store the minimum number of coins needed for each total amount.
     # Set the initial value to infinity for all amounts except 0.
