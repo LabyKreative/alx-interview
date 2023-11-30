@@ -1,23 +1,23 @@
 #!/usr/bin/python3
-"""
-Island Perimeter
-"""
+"""Island Perimeter"""
 
 
 def island_perimeter(grid):
-    if not grid or not grid[0]:
-        return 0
-
+    """Returns perimeter of an island"""
     perimeter = 0
-    rows, cols = len(grid), len(grid[0])
-
-    for i in range(rows):
-        for j in range(cols):
-            if grid[i][j] == 1:
-                perimeter += 4
-                if i > 0 and grid[i - 1][j] == 1:
-                    perimeter -= 2
-                if j > 0 and grid[i][j - 1] == 1:
-                    perimeter -= 2
-
+    if type(grid) != list:
+        return 0
+    g = len(grid)
+    for x, row in enumerate(grid):
+        r = len(row)
+        for y, cell in enumerate(row):
+            if cell == 0:
+                continue
+            edges = (
+                x == 0 or (len(grid[x - 1]) > y and grid[x - 1][y] == 0),
+                y == r - 1 or (r > y + 1 and row[y + 1] == 0),
+                x == g - 1 or (len(grid[x + 1]) > y and grid[x + 1][y] == 0),
+                y == 0 or row[y - 1] == 0,
+            )
+            perimeter += sum(edges)
     return perimeter
