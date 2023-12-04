@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Prime Game"""
+"""
+Prime Game
+"""
 
 
 def isWinner(x, nums):
